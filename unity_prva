@@ -1,0 +1,55 @@
+using UnityEngine;
+using System.Collections;
+
+public class scene1 : MonoBehaviour {
+	// original game object tukaj je mama, ona kontrolira celotno sceno
+
+	private GameObject Boy;
+	private GameObject Girl;
+	private int sceneIT; //odvijanje scene 
+	private GameObject choosePlayer;
+	private GameObject insertName;
+
+
+	public bool playerChosen;
+
+	// Use this for initialization
+	void Start () {
+		Boy = GameObject.FindWithTag ("Boy");
+		Girl = GameObject.FindWithTag ("Girl");
+		sceneIT = 0;
+		choosePlayer = GameObject.FindWithTag ("choosePlayerBanner");
+		insertName = GameObject.FindWithTag ("insertNameBanner");
+	}
+
+	
+	// Update is called once per frame 
+	void Update () {
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit2D hit = Physics2D.GetRayIntersection (ray);
+
+		if (sceneIT == 0) {
+			choosePlayer.SetActive(true);
+			if (hit && !playerChosen) {
+				if (hit.collider.name == "Girl"  && Input.GetMouseButton (0)){
+					Boy.SetActive(false);
+					playerChosen = true;
+					sceneIT++;
+
+				}
+				if (hit.collider.name == "Boy"  && Input.GetMouseButton (0)) {
+					Girl.SetActive(false);
+					playerChosen = true;
+					sceneIT++;
+
+				}
+				choosePlayer.SetActive(false);
+				Debug.Log ("player izbran");
+			}
+		}
+		if (sceneIT == 1) {
+			insertName.SetActive(true);
+		}
+	
+	}
+}
